@@ -37,6 +37,7 @@
         <label><input type="checkbox" id="currency" checked /> Currency</label>
         <label><input type="checkbox" id="coordinates" checked /> Coordinates</label>
         <label><input type="checkbox" id="ansiEscape" checked /> ANSI Escape</label>
+        <label><input type="checkbox" id="wallet" checked /> Crypto Wallet</label>
     </div>
 
     <p id="logContent" class="text-center text-green-700 mt-6"></p>
@@ -69,7 +70,8 @@
         pid: true,
         currency: true,
         coordinates: true,
-        ansiEscape: true
+        ansiEscape: true,
+        wallet: true // Added wallet pattern
     };
 
     const regexPatterns = {
@@ -92,7 +94,8 @@
         pid: /\bPID\s\d{1,6}\b/g,
         currency: /(?:£|\$|€|¥|₹|₣|₤|₱|₲|₴|₣|₩|₪)\d+(?:,\d{3})*(?:\.\d{2})?/g,
         coordinates: /\b-?\d{1,3}\.\d{6,},\s?-?\d{1,3}\.\d{6,}\b/g,
-        ansiEscape: /\x1B\[[0-9;]*m/g
+        ansiEscape: /\x1B\[[0-9;]*m/g,
+        wallet: /\b(?:1|3|bc1)[A-Za-z0-9]{25,34}\b|\b0x[a-fA-F0-9]{40}\b|\b[L|M][A-Za-z0-9]{26,33}\b|\br[a-zA-Z0-9]{25,34}\b|\b[D|9][A-Za-z0-9]{33}\b|\b([A-Za-z0-9]{42})\b/g, // Added regex for Bitcoin wallet address
     };
 
     const regexColours = {
@@ -148,7 +151,8 @@
             ack: 'lightseagreen',
             default: 'grey'
         },
-        domain: 'lightblue'
+        domain: 'lightblue',
+        wallet: 'lightblue' // Set a colour for wallet addresses
     };
 
     function highlightContent(content) {
