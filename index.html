@@ -83,7 +83,7 @@
         hex: /\b0x[0-9A-Fa-f]+\b/g,
         statusCode: /\b(2\d{2}|3\d{2}|4\d{2}|5\d{2})\b/g,
         domain: /\b(?:[A-Za-z0-9-]{1,63}\.)+[A-Za-z]{2,6}(?=\s|:|$)/g,
-        httpMethods: /\b(?:get|post|put|delete|patch|options|head|trace|connect|port)\b/gi,
+        httpMethods: /\b(?:get|post|put|delete|patch|options|head|trace|connect|port|http|https)\b/gi,
         netMethods: /\b(?:tcp|udp|icmpv6|icmp|ping|pppoe|lan|wan|ttl|hoplimit|syn|ack|data|system|firewall|in|out|hop|proto|protocol)\b/gi,
         logLevel: /\b(?:error|warning|critical|info|debug|notice)\b/gi,
         filepath: /(?:\/(?:[\w\s-]+\/)+[\w\s-]+(?:\/|\.[a-zA-Z0-9]+)?)/g,
