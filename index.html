@@ -38,6 +38,9 @@
         <label><input type="checkbox" id="coordinates" checked /> Coordinates</label>
         <label><input type="checkbox" id="ansiEscape" checked /> ANSI Escape</label>
         <label><input type="checkbox" id="wallet" checked /> Crypto Wallet</label>
+        <label><input type="checkbox" id="apiKey" checked /> ApiKey (32-64)</label>
+        <label><input type="checkbox" id="userAgent" checked /> Web Agents</label>
+        <label><input type="checkbox" id="fileExtensions" checked /> File Extensions</label>
     </div>
 
     <p id="logContent" class="text-center text-green-700 mt-6"></p>
@@ -71,7 +74,10 @@
         currency: true,
         coordinates: true,
         ansiEscape: true,
-        wallet: true // Added wallet pattern
+        wallet: true,
+        apiKey: true,
+        userAgent: true,
+        fileExtensions: true,
     };
 
     const regexPatterns = {
@@ -95,9 +101,12 @@
         currency: /(?:£|\$|€|¥|₹|₣|₤|₱|₲|₴|₣|₩|₪)\d+(?:,\d{3})*(?:\.\d{2})?/g,
         coordinates: /\b-?\d{1,3}\.\d{6,},\s?-?\d{1,3}\.\d{6,}\b/g,
         ansiEscape: /\x1B\[[0-9;]*m/g,
-        wallet: /\b(?:1|3|bc1)[A-Za-z0-9]{25,34}\b|\b0x[a-fA-F0-9]{40}\b|\b[L|M][A-Za-z0-9]{26,33}\b|\br[a-zA-Z0-9]{25,34}\b|\b[D|9][A-Za-z0-9]{33}\b|\b([A-Za-z0-9]{42})\b/g, // Added regex for Bitcoin wallet address
+        wallet: /\b(?:1|3|bc1)[A-Za-z0-9]{25,34}\b|\b0x[a-fA-F0-9]{40}\b|\b[L|M][A-Za-z0-9]{26,33}\b|\br[a-zA-Z0-9]{25,34}\b|\b[D|9][A-Za-z0-9]{33}\b|\b([A-Za-z0-9]{42})\b/g, // Bitcoin wallet address
+        apiKey: /\b[A-Za-z0-9]{32,64}\b/g,
+        userAgent: /\b(Mozilla\/[^\s]+|Chrome\/[^\s]+|Safari\/[^\s]+|Edge\/[^\s]+|OPR\/[^\s]+|Firefox\/[^\s]+|MSIE\s[^\s]+|Trident\/[^\s]+)\b/g,
+        fileExtensions: /\b(?:[a-zA-Z0-9\s_\\.\-:])+(\.log|\.txt|\.json|\.csv|\.xml|\.html|\.css|\.js|\.lua|\.py|\.sh)\b/g,  // Match file extensions
     };
-
+    
     const regexColours = {
         email: 'gray',
         time: 'blue',
@@ -152,9 +161,12 @@
             default: 'grey'
         },
         domain: 'lightblue',
-        wallet: 'lightblue' // Set a colour for wallet addresses
+        wallet: 'lightblue', // Colour for wallet addresses
+        apiKey: 'cyan', // Colour for API Keys
+        userAgent: 'magenta', // Colour for User Agents
+        fileExtensions: 'yellow', // Colour for file extensions
     };
-
+    
     function highlightContent(content) {
         Object.keys(selectedPatterns).forEach(pattern => {
             if (selectedPatterns[pattern]) {
@@ -172,9 +184,9 @@
                 });
             }
         });
-
+    
         return content;
-    }
+    }    
 
     function checkByteContent(content) {
         const textBytes = Array.from(new TextEncoder().encode(content));
