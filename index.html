@@ -52,6 +52,7 @@
     const fileInput = document.getElementById("fileInput");
     const logContent = document.getElementById("logContent");
     const formattedContent = document.getElementById("formattedContent");
+    const MAX_FILE_SIZE = 25 * 1024 * 1024;
 
     const selectedPatterns = {
         email: true,
@@ -205,37 +206,79 @@
         }
     }
 
-    const MAX_FILE_SIZE = 25 * 1024 * 1024;
+    function parseCsv(content) {
+        const lines = content.split('\n');
+        const headers = lines[0].split(','); // Assuming CSV with commas as separators.
+        const rows = lines.slice(1).map(line => line.split(','));
+        return { headers, rows };
+    }
+
+    function generateTable(headers, rows) {
+        let table = '<table class="min-w-full table-auto text-left text-sm">';
+        table += '<thead><tr class="bg-gray-700 text-white">';
+
+        // Create header row
+        headers.forEach(header => {
+            table += `<th class="px-4 py-2">${header}</th>`;
+        });
+        table += '</tr></thead><tbody>';
+
+        // Create data rows with highlighted content in each cell
+        rows.forEach(row => {
+            table += '<tr class="border-b">';
+            row.forEach(cell => {
+                // Apply highlightContent to each cell before adding it to the table
+                const highlightedCell = highlightContent(cell);
+                table += `<td class="px-4 py-2">${highlightedCell}</td>`;
+            });
+            table += '</tr>';
+        });
+        table += '</tbody></table>';
+        return table;
+    }
 
     function fileUpload() {
         const file = fileInput.files[0];
-    
+
         if (!file) {
             setLogMessage('Select a log file.', true);
             return;
         }
-    
+
         if (file.size > MAX_FILE_SIZE) {
             setLogMessage('The selected file exceeds the maximum size limit of 25MB.', true);
             return;
         }
-    
+
+        const fileExtension = file.name.split('.').pop().toLowerCase();
         const reader = new FileReader();
+
         reader.onload = function(e) {
             const fileContent = e.target.result;
-            if (checkByteContent(fileContent)) {
+
+            // Apply checkByteContent for CSV as well
+            if (!checkByteContent(fileContent)) {
+                setLogMessage('The file contains non-text characters and is not valid.', true);
+                return;
+            }
+
+            if (fileExtension === 'csv') {
+                const { headers, rows } = parseCsv(fileContent);
+                const tableContent = generateTable(headers, rows); // Generate table with highlighted content
+                formattedContent.innerHTML = tableContent;
+                setLogMessage('CSV file uploaded and processed successfully!', false);
+            } else {
+                // If it's not CSV, highlight the content
                 const highlightedContent = highlightContent(fileContent);
                 formattedContent.innerHTML = highlightedContent;
                 setLogMessage('File uploaded and processed successfully!', false);
-            } else {
-                setLogMessage('The file contains non-text characters and is not valid.', true);
             }
         };
-    
+
         reader.onerror = function() {
             setLogMessage('There was an error reading the file.', true);
         };
-    
+
         reader.readAsText(file);
     }
     
