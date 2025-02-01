@@ -220,18 +220,24 @@ function fileUpload() {
     const fileExtension = file.name.split('.').pop().toLowerCase();
     const reader = new FileReader();
 
+    // Show the loading spinner
+    document.getElementById("loadingSpinner").style.display = 'block';
+    uploadBtn.disabled = true;  // Disable the upload button
+
     reader.onload = function(e) {
         const fileContent = e.target.result;
 
-        // checkByteContent for CSV as well
         if (!checkByteContent(fileContent)) {
             setLogMessage('The file contains non-text characters and is not valid.', true);
+            // Hide the loading spinner
+            document.getElementById("loadingSpinner").style.display = 'none';
+            uploadBtn.disabled = false;  // Re-enable the button
             return;
         }
 
         if (fileExtension === 'csv') {
             const { headers, rows } = parseCsv(fileContent);
-            const tableContent = generateTable(headers, rows); // Generate table with colored content
+            const tableContent = generateTable(headers, rows); // Generate tabble
             formattedContent.innerHTML = tableContent;
             setLogMessage('CSV file uploaded and processed successfully!', false);
         } else {
@@ -239,10 +245,16 @@ function fileUpload() {
             displayLog(parsedLog);
             setLogMessage('File uploaded and processed successfully!', false);
         }
+
+        // Hide the loading spinner after processing
+        document.getElementById("loadingSpinner").style.display = 'none';
+        uploadBtn.disabled = false;  // Re-enable the button
     };
 
     reader.onerror = function() {
         setLogMessage('There was an error reading the file.', true);
+        document.getElementById("loadingSpinner").style.display = 'none'; // Hide spinner on error
+        uploadBtn.disabled = false;  // Re-enable button
     };
 
     reader.readAsText(file);
