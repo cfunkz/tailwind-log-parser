@@ -6,59 +6,50 @@
     <title>Log Parser</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="script.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" crossorigin="anonymous"></script>
 </head>
 <body class="bg-black text-white">
-    <nav class="bg-black p-4 shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold text-white">Log Parser</h1>
-            <a href="https://github.com/cfunkz/tailwind-log-parser" target="_blank" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-                <i class="fab fa-github text-lg"></i>
-                GitHub
-            </a>
-        </div>
-    </nav>
-    <div class="container mx-auto p-6 bg-black shadow-lg rounded-lg max-w-[99%]">
-        <h1 class="text-center text-3xl font-bold mb-6">Upload up to 500MB .log, .txt or .csv file</h1>
 
-        <div class="text-center mb-6">
-            <input type="file" id="fileInput" class="px-4 py-2 border border-gray-300 rounded-md mr-4" />
-            <button id="uploadBtn" class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Upload</button>
-        </div>
+<div class="container mx-auto p-6 bg-black shadow-lg rounded-lg max-w-[99%]">
+    <h1 class="text-center text-3xl font-bold mb-6">Upload up to 25MB .log, .txt or .csv file</h1>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
-            <label><input type="checkbox" id="email" checked /> Email</label>
-            <label><input type="checkbox" id="date" checked /> Date</label>
-            <label><input type="checkbox" id="time" checked /> Time</label>
-            <label><input type="checkbox" id="ip" checked /> IP</label>
-            <label><input type="checkbox" id="mac" checked /> MAC</label>
-            <label><input type="checkbox" id="ipv6" checked /> IPv6</label>
-            <label><input type="checkbox" id="hex" checked /> Hex</label>
-            <label><input type="checkbox" id="statusCode" checked /> Status Code</label>
-            <label><input type="checkbox" id="domain" checked /> Domain</label>
-            <label><input type="checkbox" id="httpMethods" checked /> HTTP Methods</label>
-            <label><input type="checkbox" id="netMethods" checked /> Network Methods</label>
-            <label><input type="checkbox" id="logLevel" checked /> Log Level</label>
-            <label><input type="checkbox" id="filepath" checked /> File Path</label>
-            <label><input type="checkbox" id="md5" checked /> MD5</label>
-            <label><input type="checkbox" id="sha1" checked /> SHA1</label>
-            <label><input type="checkbox" id="sha256" checked /> SHA256</label>
-            <label><input type="checkbox" id="pid" checked /> PID</label>
-            <label><input type="checkbox" id="currency" checked /> Currency</label>
-            <label><input type="checkbox" id="coordinates" checked /> Coordinates</label>
-            <label><input type="checkbox" id="ansiEscape" checked /> ANSI Escape</label>
-            <label><input type="checkbox" id="wallet" checked /> Crypto Wallet</label>
-            <label><input type="checkbox" id="apiKey" checked /> ApiKey (32-64)</label>
-            <label><input type="checkbox" id="userAgent" checked /> Web Agents</label>
-            <label><input type="checkbox" id="fileExtensions" checked /> File Extensions</label>
-        </div>
-
-        <p id="logContent" class="text-center text-green-700 mt-6"></p>
-        <pre id="formattedContent" class="bg-black text-white p-4 rounded-md mt-4 text-sm whitespace-pre-wrap break-words"></pre>
-        <div id="loadingSpinner" style="display: none;">
-            <span>Loading...</span>
-        </div>
+    <div class="text-center mb-6">
+        <input type="file" id="fileInput" class="px-4 py-2 border border-gray-300 rounded-md mr-4" />
+        <button id="uploadBtn" class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Upload</button>
     </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
+        <label><input type="checkbox" id="email" checked /> Email</label>
+        <label><input type="checkbox" id="date" checked /> Date</label>
+        <label><input type="checkbox" id="time" checked /> Time</label>
+        <label><input type="checkbox" id="ip" checked /> IP</label>
+        <label><input type="checkbox" id="mac" checked /> MAC</label>
+        <label><input type="checkbox" id="ipv6" checked /> IPv6</label>
+        <label><input type="checkbox" id="hex" checked /> Hex</label>
+        <label><input type="checkbox" id="statusCode" checked /> Status Code</label>
+        <label><input type="checkbox" id="domain" checked /> Domain</label>
+        <label><input type="checkbox" id="httpMethods" checked /> HTTP Methods</label>
+        <label><input type="checkbox" id="netMethods" checked /> Network Methods</label>
+        <label><input type="checkbox" id="logLevel" checked /> Log Level</label>
+        <label><input type="checkbox" id="filepath" checked /> File Path</label>
+        <label><input type="checkbox" id="md5" checked /> MD5</label>
+        <label><input type="checkbox" id="sha1" checked /> SHA1</label>
+        <label><input type="checkbox" id="sha256" checked /> SHA256</label>
+        <label><input type="checkbox" id="pid" checked /> PID</label>
+        <label><input type="checkbox" id="currency" checked /> Currency</label>
+        <label><input type="checkbox" id="coordinates" checked /> Coordinates</label>
+        <label><input type="checkbox" id="ansiEscape" checked /> ANSI Escape</label>
+        <label><input type="checkbox" id="wallet" checked /> Crypto Wallet</label>
+        <label><input type="checkbox" id="apiKey" checked /> ApiKey (32-64)</label>
+        <label><input type="checkbox" id="userAgent" checked /> Web Agents</label>
+        <label><input type="checkbox" id="fileExtensions" checked /> File Extensions</label>
+    </div>
+
+    <p id="logContent" class="text-center text-green-700 mt-6"></p>
+    <pre id="formattedContent" class="bg-black text-white p-4 rounded-md mt-4 text-sm whitespace-pre-wrap break-words"></pre>
+    <div id="loadingSpinner" style="display: none;">
+        <span>Loading...</span>
+    </div>
+</div>
 
 </body>
 </html>
