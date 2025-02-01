@@ -2,7 +2,7 @@ const uploadBtn = document.getElementById("uploadBtn");
 const fileInput = document.getElementById("fileInput");
 const logContent = document.getElementById("logContent");
 const formattedContent = document.getElementById("formattedContent");
-const MAX_FILE_SIZE = 500 * 1024 * 1024;
+const MAX_FILE_SIZE = 25 * 1024 * 1024;
 
 const selectedPatterns = {
     email: true,
@@ -26,7 +26,7 @@ const selectedPatterns = {
     coordinates: true,
     ansiEscape: true,
     wallet: true,
-    apiKey: true,
+    apiKey: false,
     userAgent: true,
     fileExtensions: true,
 };
@@ -158,9 +158,28 @@ function setLogMessage(message, isError = false) {
     }
 }
 
+function parseLog(content) {
+    const rows = content.split('\n');
+    return rows;
+}
+
+function displayLog(parsedLog) {
+    // Clear any existing content
+    formattedContent.innerHTML = '';
+    parsedLog.forEach(row => {
+        const rowDiv = document.createElement('div');
+        rowDiv.classList.add('my-2', 'whitespace-pre-wrap');
+        // Highlight the content of the row
+        const highlightedRow = highlightContent(row);
+        rowDiv.innerHTML = `${highlightedRow}<hr class="border-t-2 border-gray-600 mt-2">`;
+        // Append the rowDiv to the formattedContent area
+        formattedContent.appendChild(rowDiv);
+    });
+}
+
 function parseCsv(content) {
     const lines = content.split('\n');
-    const headers = lines[0].split(','); // Assuming CSV with commas as separators.
+    const headers = lines[0].split(',');
     const rows = lines.slice(1).map(line => line.split(','));
     return { headers, rows };
 }
@@ -169,17 +188,13 @@ function generateTable(headers, rows) {
     let table = '<table class="min-w-full table-auto text-left text-sm">';
     table += '<thead><tr class="bg-gray-700 text-white">';
 
-    // Create header row
     headers.forEach(header => {
         table += `<th class="px-4 py-2">${header}</th>`;
     });
     table += '</tr></thead><tbody>';
-
-    // Create data rows with highlighted content in each cell
     rows.forEach(row => {
         table += '<tr class="border-b">';
         row.forEach(cell => {
-            // Apply highlightContent to each cell before adding it to the table
             const highlightedCell = highlightContent(cell);
             table += `<td class="px-4 py-2">${highlightedCell}</td>`;
         });
@@ -198,7 +213,7 @@ function fileUpload() {
     }
 
     if (file.size > MAX_FILE_SIZE) {
-        setLogMessage('The selected file exceeds the maximum size limit of 500MB.', true);
+        setLogMessage('The selected file exceeds the maximum size limit of 25MB.', true);
         return;
     }
 
@@ -208,7 +223,7 @@ function fileUpload() {
     reader.onload = function(e) {
         const fileContent = e.target.result;
 
-        // Apply checkByteContent for CSV as well
+        // checkByteContent for CSV as well
         if (!checkByteContent(fileContent)) {
             setLogMessage('The file contains non-text characters and is not valid.', true);
             return;
@@ -216,13 +231,12 @@ function fileUpload() {
 
         if (fileExtension === 'csv') {
             const { headers, rows } = parseCsv(fileContent);
-            const tableContent = generateTable(headers, rows); // Generate table with highlighted content
+            const tableContent = generateTable(headers, rows); // Generate table with colored content
             formattedContent.innerHTML = tableContent;
             setLogMessage('CSV file uploaded and processed successfully!', false);
         } else {
-            // If it's not CSV, highlight the content
-            const highlightedContent = highlightContent(fileContent);
-            formattedContent.innerHTML = highlightedContent;
+            const parsedLog = parseLog(fileContent);
+            displayLog(parsedLog);
             setLogMessage('File uploaded and processed successfully!', false);
         }
     };
