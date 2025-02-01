@@ -93,7 +93,7 @@
         domain: /\b(?:[A-Za-z0-9-]{1,63}\.)+[A-Za-z]{2,6}(?=\s|:|$)/g,
         httpMethods: /\b(?:get|post|put|delete|patch|options|head|trace|connect|port|http|https)\b/gi,
         netMethods: /\b(?:tcp|udp|icmpv6|icmp|ping|pppoe|lan|wan|ttl|hoplimit|syn|ack|data|system|firewall|in|out|hop|proto|protocol)\b/gi,
-        logLevel: /\b(?:error|warning|critical|info|debug|notice)\b/gi,
+        logLevel: /\b(?:error|warning|critical|info|debug|notice|success|failure)\b/gi,
         filepath: /(?:\/(?:[\w\s-]+\/)+[\w\s-]+(?:\/|\.[a-zA-Z0-9]+)?)/g,
         md5: /\b[a-f0-9]{32}\b/gi,
         sha1: /\b[a-f0-9]{40}\b/gi,
@@ -143,7 +143,9 @@
             critical: 'darkred',
             info: 'grey',
             debug: 'lightgrey',
-            notice: 'lightgreen'
+            notice: 'lightgreen',
+            success: 'green',
+            failure: 'red
         },
         netMethods: {
             tcp: 'cyan',
