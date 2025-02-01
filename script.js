@@ -26,7 +26,7 @@ const selectedPatterns = {
     coordinates: true,
     ansiEscape: true,
     wallet: true,
-    apiKey: false,
+    apiKey: true,
     userAgent: true,
     fileExtensions: true,
 };
