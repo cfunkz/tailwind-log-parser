@@ -55,7 +55,7 @@ const regexPatterns = {
     wallet: /\b(?:1|3|bc1)[A-Za-z0-9]{25,34}\b|\b0x[a-fA-F0-9]{40}\b|\b[L|M][A-Za-z0-9]{26,33}\b|\br[a-zA-Z0-9]{25,34}\b|\b[D|9][A-Za-z0-9]{33}\b|\b([A-Za-z0-9]{42})\b/g, // Bitcoin wallet address
     apiKey: /\b[A-Za-z0-9]{32,64}\b/g,
     userAgent: /\b(Mozilla\/[^\s]+|Chrome\/[^\s]+|Safari\/[^\s]+|Edge\/[^\s]+|OPR\/[^\s]+|Firefox\/[^\s]+|MSIE\s[^\s]+|Trident\/[^\s]+)\b/g,
-    fileExtensions: /\b(?:[a-zA-Z0-9\s_\\.\-:])+(\.log|\.txt|\.json|\.csv|\.xml|\.html|\.css|\.js|\.lua|\.py|\.sh)\b/g,  // Match file extensions
+    fileExtensions: /\b(?:[a-zA-Z0-9\s_\\.\-:])+(\.log|\.txt|\.json|\.csv|\.xml|\.html|\.css|\.js|\.lua|\.py|\.sh|\.exe)\b/g,  // Match file extensions
 };
 
 const regexColours = {
